@@ -1,0 +1,19 @@
+{
+    "name": "fractal-waves-prototype",
+    "version": "1.0.0",
+    "description": "Experiments about generative art using fractals",
+    "main": "js/main.js",
+    "scripts": {
+        "css": "npx tailwindcss -i ./css/input.css -o ./css/output.css --watch",
+        "ts": "npx tsc --watch"
+    },
+    "author": "Stijn Vergauwen",
+    "license": "ISC",
+    "devDependencies": {
+        "tailwindcss": "^3.3.2",
+        "typescript": "^5.0.4"
+    },
+    "dependencies": {
+        "noisejs": "^2.1.0"
+    }
+}
