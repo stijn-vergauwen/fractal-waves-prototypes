@@ -1,0 +1,2 @@
+A collection of experiments I built to learn about generative art using Perlin noise, Fractal subdivision, and different calculations.  
+I didn't plan to put this online at first but I got some pretty cool results so I think it's worth it
