@@ -13,7 +13,7 @@ export default class FractalCircle {
     constructor(noise: Noise) {
         this.noiseSource = noise;
 
-        this.color = `hsla(${getValueBetween(0, 360)}, 100%, ${getValueBetween(60, 100)}%, 40%)`;
+        this.color = `hsla(${getValueBetween(0, 360)}, 100%, ${getValueBetween(60, 100)}%, 30%)`;
     }
 
     update(deltaNoise: number, centerPosition: Vec2) {
@@ -36,7 +36,7 @@ export default class FractalCircle {
 
 
         // const startAngle = Math.floor(Math.random() * 360);
-        const startAngle = this.noiseSource.perlin2(.423, this.noisePos * .0629) * 360;
+        const startAngle = this.noiseSource.perlin2(.423, this.noisePos * .0229) * 360;
 
         const pointsInCircle = mapOffsetsToCircle(calculateOffsetFromStraightLine(this.points), radius, startAngle);
 

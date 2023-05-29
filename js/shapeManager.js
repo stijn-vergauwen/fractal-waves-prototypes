@@ -6,11 +6,11 @@ import { canvas } from "./systems/canvasManager.js";
 let isActive = false;
 // to remove 'any', I could make a generic type for shapes
 let shapes;
-const noiseSpeed = .005;
-const drawsPerUpdate = 10;
+const noiseSpeed = .001;
+const drawsPerUpdate = 2;
 let shapePosition;
 let moveShapePosition = false;
-const shapePositionMoveSpeed = 1;
+const shapePositionMoveSpeed = 0.2;
 export function createShapesAtCenter() {
     shapePosition = new Vec2(canvas.width / 2, canvas.height / 2);
     moveShapePosition = false;
