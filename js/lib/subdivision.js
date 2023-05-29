@@ -56,7 +56,7 @@ export function createFractalSubdivisionPerlinOnlyHeight() {
         const middlePoint = getMiddlePoint(startPoint, endPoint);
         currentIndex++;
         // This value I multiply by is to break up some patterns, it's randomly chosen (by me, not alg)
-        const noiseX = currentIndex * 2.523948;
+        const noiseX = currentIndex * 7.523948;
         const positionOffset = noiseSource.perlin2(noiseX, noiseY / (displacement * .01)) * displacement;
         middlePoint.y += positionOffset;
         const leftSegment = fractalSubdivisionPerlinOnlyHeight(startPoint, middlePoint, iterations - 1, displacement * .6, noiseSource, noiseY);

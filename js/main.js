@@ -1,11 +1,11 @@
 import { backgroundClearing, startAnimationLoop } from "./systems/animationLoop.js";
 import { setupCanvas } from "./systems/canvasManager.js";
-import { createShapesAtCenter } from "./shapeManager.js";
+import { createSweepingShapes } from "./shapeManager.js";
 // Variables
 // Functions
 function setup() {
     setupCanvas();
-    createShapesAtCenter();
+    createSweepingShapes();
     startAnimationLoop(backgroundClearing.None);
 }
 // Init

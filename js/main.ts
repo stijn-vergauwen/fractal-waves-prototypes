@@ -1,6 +1,6 @@
 import { addListener, backgroundClearing, startAnimationLoop, time } from "./systems/animationLoop.js";
 import { canvas, setupCanvas } from "./systems/canvasManager.js";
-import { createShapesAtCenter } from "./shapeManager.js";
+import { createShapesAtCenter, createSweepingShapes } from "./shapeManager.js";
 
 // Variables
 
@@ -8,7 +8,7 @@ import { createShapesAtCenter } from "./shapeManager.js";
 function setup() {
     setupCanvas();
 
-    createShapesAtCenter();
+    createSweepingShapes();
 
     startAnimationLoop(backgroundClearing.None);
 }

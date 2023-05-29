@@ -23,6 +23,8 @@ export function startAnimationLoop(setClearBackground: backgroundClearing) {
         return;
     }
 
+    console.log("start animation loop");
+
     isRunning = true;
     clearBackground = setClearBackground;
     requestAnimationFrame(animationLoop);
@@ -32,6 +34,8 @@ export function stopAnimationLoop() {
     if (!isRunning) {
         return;
     }
+
+    console.log("stop animation loop");
 
     isRunning = false;
     prevTimeStamp = NaN;

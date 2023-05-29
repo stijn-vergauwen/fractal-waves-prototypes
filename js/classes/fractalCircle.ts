@@ -13,7 +13,7 @@ export default class FractalCircle {
     constructor(noise: Noise) {
         this.noiseSource = noise;
 
-        this.color = `hsla(${getValueBetween(10, 260)}, 100%, ${getValueBetween(40, 90)}%, 20%)`;
+        this.color = `hsla(${getValueBetween(0, 360)}, 100%, ${getValueBetween(60, 100)}%, 40%)`;
     }
 
     update(deltaNoise: number, centerPosition: Vec2) {
@@ -25,18 +25,18 @@ export default class FractalCircle {
 
         // this.points = calculateFractalSubdivisionOnlyHeight(start, end, 7, 140);
 
-        this.points = createFractalSubdivisionPerlinOnlyHeight()(start, end, 8, 300, this.noiseSource, this.noisePos);
+        this.points = createFractalSubdivisionPerlinOnlyHeight()(start, end, 8, 350, this.noiseSource, this.noisePos);
 
         this.draw(centerPosition);
     }
 
     draw(centerPosition: Vec2) {
-        // const radius = 100;
-        const radius = this.noiseSource.perlin2(2.5937, this.noisePos) * 100 + this.noisePos * this.noisePos * 40;
+        const radius = 100;
+        // const radius = this.noiseSource.perlin2(2.5937, this.noisePos) * 20 + 120;
 
 
         // const startAngle = Math.floor(Math.random() * 360);
-        const startAngle = this.noiseSource.perlin2(.423, this.noisePos * .1229) * 360;
+        const startAngle = this.noiseSource.perlin2(.423, this.noisePos * .0629) * 360;
 
         const pointsInCircle = mapOffsetsToCircle(calculateOffsetFromStraightLine(this.points), radius, startAngle);
 
