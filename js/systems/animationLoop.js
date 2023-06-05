@@ -21,7 +21,7 @@ export function startAnimationLoop(setClearBackground) {
     if (isRunning) {
         return;
     }
-    console.log("start animation loop");
+    // console.log("start animation loop");
     isRunning = true;
     clearBackground = setClearBackground;
     requestAnimationFrame(animationLoop);
@@ -30,11 +30,14 @@ export function stopAnimationLoop() {
     if (!isRunning) {
         return;
     }
-    console.log("stop animation loop");
+    // console.log("stop animation loop");
     isRunning = false;
     prevTimeStamp = NaN;
 }
 function animationLoop(timeStamp) {
+    if (!isRunning) {
+        return;
+    }
     time.delta = prevTimeStamp ? timeStamp - prevTimeStamp : 0;
     time.runTime += time.delta;
     prevTimeStamp = timeStamp;
@@ -45,9 +48,7 @@ function animationLoop(timeStamp) {
         fadeCanvas();
     }
     callDelegates();
-    if (isRunning) {
-        requestAnimationFrame(animationLoop);
-    }
+    requestAnimationFrame(animationLoop);
 }
 function callDelegates() {
     updateDelegates.forEach(delegate => {

@@ -23,7 +23,7 @@ export function startAnimationLoop(setClearBackground: backgroundClearing) {
         return;
     }
 
-    console.log("start animation loop");
+    // console.log("start animation loop");
 
     isRunning = true;
     clearBackground = setClearBackground;
@@ -35,13 +35,17 @@ export function stopAnimationLoop() {
         return;
     }
 
-    console.log("stop animation loop");
+    // console.log("stop animation loop");
 
     isRunning = false;
     prevTimeStamp = NaN;
 }
 
 function animationLoop(timeStamp: number) {
+    if (!isRunning) {
+        return;
+    }
+
     time.delta = prevTimeStamp ? timeStamp - prevTimeStamp : 0;
     time.runTime += time.delta;
     prevTimeStamp = timeStamp;
@@ -54,10 +58,7 @@ function animationLoop(timeStamp: number) {
     }
 
     callDelegates();
-
-    if (isRunning) {
-        requestAnimationFrame(animationLoop);
-    }
+    requestAnimationFrame(animationLoop);
 }
 
 function callDelegates() {
