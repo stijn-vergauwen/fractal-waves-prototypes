@@ -9,10 +9,12 @@ export default class FractalCircle {
     angle: number;
     radius: number;
     pointsInCircle: Vec2[];
+    heightOffset: number;
 
-    constructor(angle: number, radius: number) {
+    constructor(angle: number, radius: number, heightOffset: number) {
         this.angle = angle;
         this.radius = radius;
+        this.heightOffset = heightOffset;
     }
 
     calculateShape({ circle }: SimulationParameters, noiseSource: Noise, noisePosition: Vec2): void {
@@ -45,7 +47,7 @@ function mapHeightsToCircle(offsets: number[], radius: number, startAngleDegrees
 }
 
 function positionOnCircle(radians: number, radius: number): Vec2 {
-    const x = radius * Math.cos(radians);
+    const x = radius * Math.cos(radians) * 0.8;
     const y = radius * Math.sin(radians);
     return new Vec2(x, y);
 }

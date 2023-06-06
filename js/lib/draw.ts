@@ -21,7 +21,8 @@ export function drawPathFromPoints(
 
     ctx.strokeStyle = color ?? "black";
     ctx.lineWidth = lineWidth ?? 3;
-    ctx.miterLimit = 4;
+    ctx.lineJoin = "bevel";
+    ctx.globalCompositeOperation = "lighter";
 
     ctx.beginPath();
 

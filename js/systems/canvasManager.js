@@ -3,7 +3,7 @@ export let canvas;
 export function setupCanvas() {
     const canvasContainer = document.querySelector('#canvas-container');
     const canvasElement = document.querySelector('#canvas');
-    const context = canvasElement.getContext("2d");
+    const context = canvasElement.getContext("2d", { alpha: false });
     canvasElement.width = canvasContainer.clientWidth;
     canvasElement.height = canvasContainer.clientHeight;
     const width = canvasElement.clientWidth;

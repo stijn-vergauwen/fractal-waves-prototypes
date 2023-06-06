@@ -14,7 +14,7 @@ export let canvas: CanvasInfo;
 export function setupCanvas() {
     const canvasContainer: Element = document.querySelector('#canvas-container');
     const canvasElement: HTMLCanvasElement = document.querySelector('#canvas');
-    const context = canvasElement.getContext("2d");
+    const context = canvasElement.getContext("2d", { alpha: false });
 
     canvasElement.width = canvasContainer.clientWidth;
     canvasElement.height = canvasContainer.clientHeight;

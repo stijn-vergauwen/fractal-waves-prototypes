@@ -2,9 +2,10 @@ import Vec2 from "../lib/vector.js";
 import { calculateFractalHeightOffsets } from "./subdivision.js";
 const DEG_TO_RAD = 0.01745329251;
 export default class FractalCircle {
-    constructor(angle, radius) {
+    constructor(angle, radius, heightOffset) {
         this.angle = angle;
         this.radius = radius;
+        this.heightOffset = heightOffset;
     }
     calculateShape({ circle }, noiseSource, noisePosition) {
         const fractalLine = calculateFractalHeightOffsets()(0, 0, circle.iterations, circle.displacement, noiseSource, noisePosition);
@@ -23,7 +24,7 @@ function mapHeightsToCircle(offsets, radius, startAngleDegrees) {
     });
 }
 function positionOnCircle(radians, radius) {
-    const x = radius * Math.cos(radians);
+    const x = radius * Math.cos(radians) * 0.8;
     const y = radius * Math.sin(radians);
     return new Vec2(x, y);
 }

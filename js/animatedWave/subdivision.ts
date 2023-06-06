@@ -33,8 +33,8 @@ export function calculateFractalHeightOffsets(): (
         const positionOffset = noiseSource.perlin2(noisePosition.x + noiseXOffset, noisePosition.y / (displacement * .01)) * displacement;
         middlePoint += positionOffset;
 
-        const leftSegment = calculateOffsets(startPoint, middlePoint, iterations - 1, displacement * .6, noiseSource, noisePosition);
-        const rightSegment = calculateOffsets(middlePoint, endPoint, iterations - 1, displacement * .6, noiseSource, noisePosition);
+        const leftSegment = calculateOffsets(startPoint, middlePoint, iterations - 1, displacement * .7, noiseSource, noisePosition);
+        const rightSegment = calculateOffsets(middlePoint, endPoint, iterations - 1, displacement * .7, noiseSource, noisePosition);
 
         rightSegment.shift();
 

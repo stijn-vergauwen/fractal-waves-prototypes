@@ -25,34 +25,91 @@ export default class Wave {
     createFractalCircles(count: number): void {
         this.fractalCircles = [];
         for (let i = 0; i < count; i++) {
-            this.fractalCircles.push(new FractalCircle(0, parameters.circle.radius));
+            this.fractalCircles.push(new FractalCircle(
+                i * 140,
+                parameters.circle.radius,
+                Math.random() * 200 - 100
+            ));
         }
     }
 
     update(parameters: SimulationParameters) {
         this.noiseValue += time.delta * parameters.noiseVelocity;
 
+        this.updateCircles(parameters);
 
-        const widthPerSegment = canvas.width / parameters.waveSegmentCount;
+        this.drawWave(parameters);
+    }
 
+    updateCircles(parameters: SimulationParameters) {
         for (let i = 0; i < this.fractalCircles.length; i++) {
-            const circle = this.fractalCircles[i];
-
-            const xOffset = widthPerSegment * i - canvas.width / 2;
-            const shapePosition = new Vec2(
-                canvas.center.x + xOffset,
-                canvas.center.y,
-            );
-
             const noisePosition = new Vec2(
                 i,
                 this.noiseValue
             );
 
+            const circle = this.fractalCircles[i];
             circle.calculateShape(parameters, this.noiseSource, noisePosition);
-
-            drawPathFromPoints(canvas, shapePosition, circle.pointsInCircle, "lime", 3, true);
         }
     }
 
+    drawWave(parameters: SimulationParameters) {
+        const widthPerSegment = canvas.width / parameters.waveSegmentCount;
+        for (let i = 0; i < this.fractalCircles.length - 1; i++) {
+            const currentCircle = this.fractalCircles[i];
+            const nextCircle = this.fractalCircles[i + 1];
+
+            const currentPosition = new Vec2(
+                widthPerSegment * i,
+                canvas.height / 2 + currentCircle.heightOffset
+            );
+
+            const nextPosition = new Vec2(
+                widthPerSegment * (i + 1),
+                canvas.height / 2 + nextCircle.heightOffset,
+            );
+
+            this.drawSegment(
+                currentCircle,
+                nextCircle,
+                currentPosition,
+                nextPosition
+            );
+        }
+    }
+
+    drawSegment(startShape: FractalCircle, targetShape: FractalCircle, startPosition: Vec2, targetPosition: Vec2) {
+        const steps = 200;
+
+
+        for (let i = 0; i < steps; i++) {
+            const lerpValue = i / steps;
+            const smoothStep = (Math.pow(lerpValue, 2)) * (3 - 2 * lerpValue)
+
+            const interpolatedPoints = startShape.pointsInCircle.map((startPoint, index) => {
+                const targetPoint = targetShape.pointsInCircle[index];
+                return lerpVec2(startPoint, targetPoint, smoothStep);
+            })
+
+            // const shapePosition = lerpVec2(startPosition, targetPosition, lerpValue);
+            const shapePosition = new Vec2(
+                lerp(startPosition.x, targetPosition.x, lerpValue),
+                lerp(startPosition.y, targetPosition.y, smoothStep)
+            );
+
+            const color = `hsla(110, 100%, 60%, 20%)`;
+
+            drawPathFromPoints(canvas, shapePosition, interpolatedPoints, color, 1, true);
+        }
+    }
+
+}
+
+function lerpVec2(a: Vec2, b: Vec2, value: number): Vec2 {
+    const deltaPoint = b.subtract(a);
+    return a.add(deltaPoint.multiply(value));
+}
+
+function lerp(a: number, b: number, value: number): number {
+    return a + (b - a) * value;
 }

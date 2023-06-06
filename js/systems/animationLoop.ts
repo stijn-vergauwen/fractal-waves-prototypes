@@ -5,6 +5,8 @@ let clearBackground: backgroundClearing;
 let prevTimeStamp: number;
 let updateDelegates: updateDelegate[] = [];
 
+let iterator = 0;
+
 type updateDelegate = () => void;
 
 export enum backgroundClearing { None, Fade, Clear };
@@ -45,19 +47,24 @@ function animationLoop(timeStamp: number) {
     if (!isRunning) {
         return;
     }
+    iterator++;
+    if (iterator >= 2) {
+        iterator = 0;
 
-    time.delta = prevTimeStamp ? timeStamp - prevTimeStamp : 0;
-    time.runTime += time.delta;
-    prevTimeStamp = timeStamp;
+        time.delta = prevTimeStamp ? timeStamp - prevTimeStamp : 0;
+        time.runTime += time.delta;
+        prevTimeStamp = timeStamp;
 
-    if (clearBackground == backgroundClearing.Clear) {
-        clearCanvas();
+        if (clearBackground == backgroundClearing.Clear) {
+            clearCanvas();
+        }
+        else if (clearBackground == backgroundClearing.Fade) {
+            fadeCanvas();
+        }
+
+        callDelegates();
     }
-    else if (clearBackground == backgroundClearing.Fade) {
-        fadeCanvas();
-    }
 
-    callDelegates();
     requestAnimationFrame(animationLoop);
 }
 

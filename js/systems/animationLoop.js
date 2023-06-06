@@ -3,6 +3,7 @@ let isRunning = false;
 let clearBackground;
 let prevTimeStamp;
 let updateDelegates = [];
+let iterator = 0;
 export var backgroundClearing;
 (function (backgroundClearing) {
     backgroundClearing[backgroundClearing["None"] = 0] = "None";
@@ -38,16 +39,20 @@ function animationLoop(timeStamp) {
     if (!isRunning) {
         return;
     }
-    time.delta = prevTimeStamp ? timeStamp - prevTimeStamp : 0;
-    time.runTime += time.delta;
-    prevTimeStamp = timeStamp;
-    if (clearBackground == backgroundClearing.Clear) {
-        clearCanvas();
+    iterator++;
+    if (iterator >= 2) {
+        iterator = 0;
+        time.delta = prevTimeStamp ? timeStamp - prevTimeStamp : 0;
+        time.runTime += time.delta;
+        prevTimeStamp = timeStamp;
+        if (clearBackground == backgroundClearing.Clear) {
+            clearCanvas();
+        }
+        else if (clearBackground == backgroundClearing.Fade) {
+            fadeCanvas();
+        }
+        callDelegates();
     }
-    else if (clearBackground == backgroundClearing.Fade) {
-        fadeCanvas();
-    }
-    callDelegates();
     requestAnimationFrame(animationLoop);
 }
 function callDelegates() {

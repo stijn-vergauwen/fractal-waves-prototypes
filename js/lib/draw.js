@@ -7,7 +7,8 @@ export function drawPathFromPoints(canvas, center, points, color, lineWidth, clo
     const ctx = canvas.ctx;
     ctx.strokeStyle = color !== null && color !== void 0 ? color : "black";
     ctx.lineWidth = lineWidth !== null && lineWidth !== void 0 ? lineWidth : 3;
-    ctx.miterLimit = 4;
+    ctx.lineJoin = "bevel";
+    ctx.globalCompositeOperation = "lighter";
     ctx.beginPath();
     points.forEach((point, index) => {
         const { x, y } = center.add(point);
