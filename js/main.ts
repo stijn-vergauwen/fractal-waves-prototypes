@@ -12,7 +12,7 @@ function setup() {
     // createSweepingShapes();
     setupAnimatedWave();
 
-    startAnimationLoop(backgroundClearing.None);
+    startAnimationLoop(backgroundClearing.Clear);
 }
 
 // Init

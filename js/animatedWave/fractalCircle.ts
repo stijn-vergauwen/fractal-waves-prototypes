@@ -1,19 +1,31 @@
 import Vec2 from "../lib/vector.js";
+import Noise from "../noise/noise.js";
+import { SimulationParameters } from "./simulationParameters.js";
+import { calculateFractalHeightOffsets } from "./subdivision.js";
 
 const DEG_TO_RAD = 0.01745329251;
 
 export default class FractalCircle {
     angle: number;
     radius: number;
-    radiusOffsets: number[];
+    pointsInCircle: Vec2[];
 
-    calculateCircle(segmentCount: number) {
-        const numberArray: number[] = new Array(segmentCount);
-        numberArray.fill(0);
+    constructor(angle: number, radius: number) {
+        this.angle = angle;
+        this.radius = radius;
+    }
 
-        const spikyArray = numberArray.map((value, index) => index % 2 == 0 ? -10 : 10);
+    calculateShape({ circle }: SimulationParameters, noiseSource: Noise, noisePosition: Vec2): void {
+        const fractalLine = calculateFractalHeightOffsets()(
+            0,
+            0,
+            circle.iterations,
+            circle.displacement,
+            noiseSource,
+            noisePosition
+        );
 
-        return mapHeightsToCircle(spikyArray, 100, 0);
+        this.pointsInCircle = mapHeightsToCircle(fractalLine, this.radius, this.angle);
     }
 }
 
@@ -22,13 +34,13 @@ function mapHeightsToCircle(offsets: number[], radius: number, startAngleDegrees
     const anglePerStep = 360 / pointCount;
 
     return offsets.map((offset, index) => {
-        const angle = startAngleDegrees + anglePerStep * index;
+        const angleDeg = startAngleDegrees + anglePerStep * index;
 
         if (offset < -radius) {
             offset = -radius;
         }
-        const finalPosition = positionOnCircle(angle * DEG_TO_RAD, radius + offset);
-        return finalPosition;
+
+        return positionOnCircle(angleDeg * DEG_TO_RAD, radius + offset);
     });
 }
 

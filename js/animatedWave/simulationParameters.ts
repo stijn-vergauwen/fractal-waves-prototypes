@@ -1,24 +1,36 @@
 
 export type SimulationParameters = {
     waveSegmentCount: number;
-    shapeSegmentCount: number;
+
+    noiseVelocity: number;
+    horizontalVelocity: number;
+
     drawnLine: {
         width: number;
         color: string;
     };
-    noiseVelocity: number;
-    horizontalVelocity: number;
+
+    circle: {
+        radius: number;
+        iterations: number;
+        displacement: number;
+    };
 };
 
 export let parameters = {
-    waveSegmentCount: 10,
-    shapeSegmentCount: 40,
+    waveSegmentCount: 3,
+
+    noiseVelocity: 0.0002,
+    horizontalVelocity: 1,
 
     drawnLine: {
         width: 2,
         color: "blue",
     },
 
-    noiseVelocity: 1,
-    horizontalVelocity: 1,
+    circle: {
+        radius: 100,
+        iterations: 8,
+        displacement: 200,
+    }
 };
