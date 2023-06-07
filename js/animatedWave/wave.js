@@ -1,4 +1,4 @@
-import { drawPathFromPoints } from "../lib/draw.js";
+import { drawPathFromPointsWithRadialGradient } from "../lib/draw.js";
 import Vec2 from "../lib/vector.js";
 import { time } from "../systems/animationLoop.js";
 import { canvas } from "../systems/canvasManager.js";
@@ -13,7 +13,7 @@ export default class Wave {
     createFractalCircles(count) {
         this.fractalCircles = [];
         for (let i = 0; i < count; i++) {
-            this.fractalCircles.push(new FractalCircle(i * 140, parameters.circle.radius, Math.random() * 200 - 100));
+            this.fractalCircles.push(new FractalCircle(0, parameters.circle.radius, this.noiseSource.perlin2(i * 52.4163, this.noiseValue) * 200));
         }
     }
     update(parameters) {
@@ -35,11 +35,11 @@ export default class Wave {
             const nextCircle = this.fractalCircles[i + 1];
             const currentPosition = new Vec2(widthPerSegment * i, canvas.height / 2 + currentCircle.heightOffset);
             const nextPosition = new Vec2(widthPerSegment * (i + 1), canvas.height / 2 + nextCircle.heightOffset);
-            this.drawSegment(currentCircle, nextCircle, currentPosition, nextPosition);
+            this.drawSegment(currentCircle, nextCircle, currentPosition, nextPosition, parameters);
         }
     }
-    drawSegment(startShape, targetShape, startPosition, targetPosition) {
-        const steps = 200;
+    drawSegment(startShape, targetShape, startPosition, targetPosition, parameters) {
+        const steps = parameters.stepsPerSegment;
         for (let i = 0; i < steps; i++) {
             const lerpValue = i / steps;
             const smoothStep = (Math.pow(lerpValue, 2)) * (3 - 2 * lerpValue);
@@ -49,8 +49,15 @@ export default class Wave {
             });
             // const shapePosition = lerpVec2(startPosition, targetPosition, lerpValue);
             const shapePosition = new Vec2(lerp(startPosition.x, targetPosition.x, lerpValue), lerp(startPosition.y, targetPosition.y, smoothStep));
-            const color = `hsla(110, 100%, 60%, 20%)`;
-            drawPathFromPoints(canvas, shapePosition, interpolatedPoints, color, 1, true);
+            // drawPathFromPoints(
+            //     canvas,
+            //     shapePosition,
+            //     interpolatedPoints,
+            //     parameters.drawnLine.outerColor,
+            //     parameters.drawnLine.width,
+            //     true
+            // );
+            drawPathFromPointsWithRadialGradient(canvas, shapePosition, interpolatedPoints, parameters.drawnLine.innerColor, parameters.drawnLine.outerColor, parameters.circle.radius * 2, parameters.drawnLine.width);
         }
     }
 }

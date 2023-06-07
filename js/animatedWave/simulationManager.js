@@ -10,6 +10,7 @@ export function setupAnimatedWave() {
     let noiseSource = new Noise(Math.random() * 1000);
     wave = new Wave(noiseSource, parameters.waveSegmentCount);
     addListener(update);
+    // update();
 }
 function update() {
     wave.update(parameters);

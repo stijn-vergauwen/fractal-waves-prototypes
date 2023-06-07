@@ -17,6 +17,7 @@ export function setupAnimatedWave() {
     wave = new Wave(noiseSource, parameters.waveSegmentCount);
 
     addListener(update);
+    // update();
 }
 
 function update() {

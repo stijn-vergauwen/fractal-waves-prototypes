@@ -48,7 +48,7 @@ function animationLoop(timeStamp: number) {
         return;
     }
     iterator++;
-    if (iterator >= 2) {
+    if (iterator >= 3) {
         iterator = 0;
 
         time.delta = prevTimeStamp ? timeStamp - prevTimeStamp : 0;

@@ -1,4 +1,4 @@
-import { drawPathFromPoints } from "../lib/draw.js";
+import { drawPathFromPoints, drawPathFromPointsWithRadialGradient } from "../lib/draw.js";
 import Vec2 from "../lib/vector.js";
 import Noise from "../noise/noise.js";
 import { time } from "../systems/animationLoop.js";
@@ -26,9 +26,9 @@ export default class Wave {
         this.fractalCircles = [];
         for (let i = 0; i < count; i++) {
             this.fractalCircles.push(new FractalCircle(
-                i * 140,
+                0,
                 parameters.circle.radius,
-                Math.random() * 200 - 100
+                this.noiseSource.perlin2(i * 52.4163, this.noiseValue) * 200
             ));
         }
     }
@@ -73,13 +73,20 @@ export default class Wave {
                 currentCircle,
                 nextCircle,
                 currentPosition,
-                nextPosition
+                nextPosition,
+                parameters,
             );
         }
     }
 
-    drawSegment(startShape: FractalCircle, targetShape: FractalCircle, startPosition: Vec2, targetPosition: Vec2) {
-        const steps = 200;
+    drawSegment(
+        startShape: FractalCircle,
+        targetShape: FractalCircle,
+        startPosition: Vec2,
+        targetPosition: Vec2,
+        parameters: SimulationParameters,
+    ) {
+        const steps = parameters.stepsPerSegment;
 
 
         for (let i = 0; i < steps; i++) {
@@ -97,9 +104,24 @@ export default class Wave {
                 lerp(startPosition.y, targetPosition.y, smoothStep)
             );
 
-            const color = `hsla(110, 100%, 60%, 20%)`;
+            // drawPathFromPoints(
+            //     canvas,
+            //     shapePosition,
+            //     interpolatedPoints,
+            //     parameters.drawnLine.outerColor,
+            //     parameters.drawnLine.width,
+            //     true
+            // );
 
-            drawPathFromPoints(canvas, shapePosition, interpolatedPoints, color, 1, true);
+            drawPathFromPointsWithRadialGradient(
+                canvas,
+                shapePosition,
+                interpolatedPoints,
+                parameters.drawnLine.innerColor,
+                parameters.drawnLine.outerColor,
+                parameters.circle.radius * 2,
+                parameters.drawnLine.width,
+            );
         }
     }
 
